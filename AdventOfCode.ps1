@@ -117,13 +117,12 @@ Function Day3
 	)
 	$Input = [System.IO.File]::ReadAllText("D:\Temp\AdventOfCode\Day3\input.txt")
 	$Input = $Input.ToCharArray()
-	$count = $x = $y = 0;
+	$x = $y = 0;
+	$count = 1;
 	$deliveryCoords = @{}
+	$deliveryCoords.Add("$Count","$x,$y")
 	foreach ($_ in $Input)
 	{
-		$Count++
-		$deliveryCoords.Add("$Count","$x,$y")
-		#$delivery = @{"$Count" = $x, $y}
 		if ($_ -eq '^')
 		{
 			$y++
@@ -144,11 +143,9 @@ Function Day3
 		{
 			Write-Output "Directions unclear"
 		}
-		$deliveryCoords.GetEnumerator() | Sort -Property Value -Unique
-		#$deliveryCoords += $delivery
+		$Count++
+		$deliveryCoords.Add("$Count","$x,$y")
 	}
-	Write-Output "The total value is:"
-	($deliveryCoords | Sort-Object -Unique).Count
-	#Write-Output "The the current coordinates are $deliveryCoords"
+	Write-Output "The total number of unique houses visited was" ($deliveryCoords.Values | Sort-Object -Unique).Count
 }
 Day3 -Filepath 'D:\Temp\AdventOfCode\Day3\input.txt'
