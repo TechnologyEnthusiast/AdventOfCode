@@ -147,7 +147,8 @@ Function Day3
 		$deliveryCoords.GetEnumerator() | Sort -Property Value -Unique
 		#$deliveryCoords += $delivery
 	}
-	$deliveryCoords | Sort-Object -Unique
+	Write-Output "The total value is:"
+	($deliveryCoords | Sort-Object -Unique).Count
 	#Write-Output "The the current coordinates are $deliveryCoords"
 }
 Day3 -Filepath 'D:\Temp\AdventOfCode\Day3\input.txt'
