@@ -110,42 +110,79 @@ Function Day2
 
 Function Day3
 {
+	# Toggle $Helper to $true for day 2
 	PARAM (
 	[CmdletBinding()]
 	[ValidateNotNullOrEmpty()]
-	[string]$Filepath
+	[string]$Filepath,
+
+	[boolean]$Helper = $false
 	)
-	$Input = [System.IO.File]::ReadAllText("D:\Temp\AdventOfCode\Day3\input.txt")
+	$Input = [System.IO.File]::ReadAllText("$Filepath")
 	$Input = $Input.ToCharArray()
-	$x = $y = 0;
+	$x1 = $x2 = $y1 = $y2 = 0;
 	$count = 1;
 	$deliveryCoords = @{}
-	$deliveryCoords.Add("$Count","$x,$y")
+	$deliveryCoords.Add("$count","$x1,$y1")
+
+	if ($Help -eq $true)
+	{
+		$count++
+		$deliveryCoords.Add("$count","$x2,$y2")
+	}
+
 	foreach ($_ in $Input)
 	{
-		if ($_ -eq '^')
+		$Count++
+		if ($Count % 2 -or $Helper -eq $false)
 		{
-			$y++
-		}
-		elseif ($_ -eq 'v')
-		{
-			$y--
-		}
-		elseif ($_ -eq '>')
-		{
-			$x++
-		}
-		elseif ($_ -eq '<')
-		{
-			$x--
+			if ($_ -eq '^')
+			{
+				$y1++
+			}
+			elseif ($_ -eq 'v')
+			{
+				$y1--
+			}
+			elseif ($_ -eq '>')
+			{
+				$x1++
+			}
+			elseif ($_ -eq '<')
+			{
+				$x1--
+			}
+			else
+			{
+				Write-Output "Directions unclear"
+			}
+			$deliveryCoords.Add("$Count","$x1,$y1")
 		}
 		else
 		{
-			Write-Output "Directions unclear"
+			if ($_ -eq '^')
+			{
+				$y2++
+			}
+			elseif ($_ -eq 'v')
+			{
+				$y2--
+			}
+			elseif ($_ -eq '>')
+			{
+				$x2++
+			}
+			elseif ($_ -eq '<')
+			{
+				$x2--
+			}
+			else
+			{
+				Write-Output "Directions unclear"
+			}
+			$deliveryCoords.Add("$Count","$x2,$y2")
 		}
-		$Count++
-		$deliveryCoords.Add("$Count","$x,$y")
 	}
 	Write-Output "The total number of unique houses visited was" ($deliveryCoords.Values | Sort-Object -Unique).Count
 }
-Day3 -Filepath 'D:\Temp\AdventOfCode\Day3\input.txt'
+Day3 -Filepath 'D:\Temp\AdventOfCode\Day3\input.txt' -Helper $true
